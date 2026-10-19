@@ -1,65 +1,73 @@
 # Samba
 
-From this directory:
+## Local configuration
+
+From the repository root, create a local environment file:
 
 ```sh
-cp .env.example .env
-# Edit .env with your share path, username, and a new strong password.
+cd samba
+touch .env
+chmod 600 .env
+```
+
+Edit `.env` with your host share path and credentials:
+
+```dotenv
+SAMBA_SHARE_PATH=/srv/shares/downloads
+SAMBA_USER=your-username
+SAMBA_PASSWORD='replace-with-a-new-strong-password'
+```
+
+Create the host share directory before starting Samba. Use an absolute path
+outside the Git checkout. File ownership uses user/group ID `1000`, configured
+in `docker-compose.yml`. The SMB share is named `drive-name`. Images, ports,
+and other service settings are defined directly in the Compose file.
+
+Both `.env` and `.env.example` are ignored by Git and kept local. The settings
+above are the reference for a fresh clone; no example file is shipped.
+Single quotes preserve literal `$` and `#` characters in `.env`. Avoid semicolons
+and double quotes in Samba credentials because they act as command delimiters.
+Never use the placeholder password as a real password or share the output of
+`docker compose config`, which contains resolved credentials.
+
+## Start and update manually
+
+From the `samba` directory, validate the configuration and start the service:
+
+```sh
 docker compose config --quiet
+docker compose pull
 docker compose up -d
+docker compose ps
 ```
 
-Create the host share directory first. File ownership uses user/group ID `1000`,
-configured in `docker-compose.yml`. The SMB share is named `drive-name`.
-Images, ports, and other service settings are defined in the Compose file.
-
-Keep `.env` local. Never use a sample password as a real password. Single quotes
-preserve literal `$` and `#` characters in `.env`; avoid semicolons and double
-quotes in Samba credentials because they act as command delimiters.
-Do not share the output of `docker compose config`, which contains credentials.
-
-Samba stores its internal configuration and state in Docker named volumes.
-Keep those volume names unchanged to retain state across container updates.
-
-## Pull and apply on the homelab
-
-Keep credentials and shared files outside the checkout. From the repository
-root, create a local environment file once:
+After pushing repository changes, run the following on the homelab from the
+`samba` directory. Run each command only if the preceding command succeeds:
 
 ```sh
-mkdir -p "$HOME/.config/homelab"
-chmod 700 "$HOME/.config/homelab"
-cp samba/.env.example "$HOME/.config/homelab/samba.env"
-chmod 600 "$HOME/.config/homelab/samba.env"
-# Edit samba.env with your username, password, and an existing absolute share path.
-# For example: SAMBA_SHARE_PATH=/srv/shares/downloads
+git pull --ff-only
+docker compose config --quiet
+docker compose pull
+docker compose up -d
+docker compose ps
 ```
 
-After pushing changes to GitHub, apply them on the homelab:
+Keep the checkout on `main` for normal deployments. To test a PR, check out its
+branch and configure its upstream first. Pulls follow the current branch's
+upstream. The `latest` image tag can change independently of Git; edit the
+Compose image tag if you want to pin a particular release.
 
-```sh
-./samba/deploy.sh "$HOME/.config/homelab/samba.env"
-```
+Samba's internal configuration and state live in Docker named volumes. Keep
+their names unchanged across updates, and do not use `docker compose down -v`
+unless you intend to delete that state. Ordinary updates use `up -d` without
+stopping the stack first.
 
-The script pulls the checked-out branch with `git pull --ff-only`, validates
-Compose without printing resolved credentials, pulls the image, and runs
-`up -d`. It stops on failure and uses the fixed Compose project name `samba`.
-It needs Git remote access and permission to use Docker. Without an argument,
-it uses `samba/.env` for compatibility with the setup above.
-
-Keep the homelab checkout on `main` for normal deployments. To test a PR,
-check out its branch and set its upstream before running the script. The script
-follows that branch's upstream; it does not switch branches or merge divergent
-history. It does not stop the stack first or delete persistent volumes.
-The `latest` image tag can change independently of Git; edit the Compose image
-tag if you want to pin a particular release.
-
-With an external share path and Docker named volumes, Samba's runtime data
-stays outside the checkout. Ignored local files do not normally interfere with
-pulls, but future commits must not track their paths. `.gitignore` does not
-protect files already tracked by Git. Back up the share, named volumes, and
-local credentials separately; reverting Git does not restore application data.
+With the share outside the checkout and internal state in named volumes,
+runtime data stays separate from Git. Ignored files do not normally interfere
+with pulls, but future commits must not track their paths. `.gitignore` does
+not protect files already tracked by Git. Back up the share, named volumes,
+and local credentials separately; reverting Git does not restore data.
 
 The repository history was replaced to remove an old sample credential. Use a
-fresh clone if your existing clone has the old history. Replace any password
-reused from that history; rewriting Git history does not retract existing copies.
+fresh clone if your existing clone has the old history, and replace any password
+reused from that history.
