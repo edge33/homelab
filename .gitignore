@@ -1,0 +1,20 @@
+# Local environment files; only sanitized examples belong in Git.
+*.env
+.env.*
+!.env.example
+
+# Local credential stores.
+.aws/
+.ssh/
+
+# Service state can contain credentials, tokens, and private keys.
+/amule/amule/
+/homeassistant/config/
+/jellyfin/config/
+/jellyfin/cache/
+/nginx-proxy-manager/data/
+/nginx-proxy-manager/letsencrypt/
+/pi-hole/etc-pihole/
+/pi-hole/etc-dnsmasq.d/
+/qbittorrent/config/
+/tailscale/tailscale-state/
