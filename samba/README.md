@@ -2,11 +2,12 @@
 
 ## Local configuration
 
-From the repository root, create a local environment file:
+For initial setup, copy the tracked example to a local environment file. If
+`.env` already exists, edit it instead of copying. From the repository root:
 
 ```sh
 cd samba
-touch .env
+cp .env.example .env
 chmod 600 .env
 ```
 
@@ -23,8 +24,8 @@ outside the Git checkout. File ownership uses user/group ID `1000`, configured
 in `docker-compose.yml`. The SMB share is named `drive-name`. Images, ports,
 and other service settings are defined directly in the Compose file.
 
-Both `.env` and `.env.example` are ignored by Git and kept local. The settings
-above are the reference for a fresh clone; no example file is shipped.
+The real `.env` is ignored by Git. The tracked `.env.example` contains only
+placeholder values and serves as the configuration reference for fresh clones.
 Single quotes preserve literal `$` and `#` characters in `.env`. Avoid semicolons
 and double quotes in Samba credentials because they act as command delimiters.
 Never use the placeholder password as a real password or share the output of
