@@ -55,8 +55,10 @@ docker compose ps
 
 Keep the checkout on `main` for normal deployments. To test a PR, check out its
 branch and configure its upstream first. Pulls follow the current branch's
-upstream. The `latest` image tag can change independently of Git; edit the
-Compose image tag if you want to pin a particular release.
+upstream. Renovate proposes digest pins and updates for the `latest` image tag
+through pull requests; see the
+[repository update instructions](../README.md#automated-image-updates).
+Until a digest pin is merged, `latest` can change independently of Git.
 
 Samba's internal configuration and state live in Docker named volumes. Keep
 their names unchanged across updates, and do not use `docker compose down -v`

@@ -78,7 +78,8 @@ branch's upstream; use `main` for normal deployments or the PR branch for
 testing. No deployment script is required.
 
 Image, ports, timezone, and restart policy are hardcoded in the Compose file.
-The `latest` image tag can change independently of Git; edit it to pin a release.
+Renovate proposes image version and digest updates through pull requests; see
+the [repository update instructions](../README.md#automated-image-updates).
 The host configuration directory persists when containers are recreated. With
 that directory outside the checkout, Git pulls cannot change its contents.
 Do not commit runtime files or credentials; back them up separately from Git.
