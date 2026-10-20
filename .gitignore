@@ -1,4 +1,4 @@
-# Local environment files; only sanitized examples belong in Git.
+# Local environment files; sanitized examples belong in Git.
 *.env
 .env.*
 !.env.example
