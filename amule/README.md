@@ -11,7 +11,7 @@ From the repository root:
 cd amule
 cp .env.example .env
 chmod 600 .env
-mkdir -p amule /home/edge33/amule/downloads /home/edge33/amule/temp
+mkdir -p amule /home/edge33/downloads/amule/downloads /home/edge33/downloads/amule/temp
 ```
 
 If `.env` already exists, edit it instead of copying. Set two strong passwords:
@@ -20,8 +20,8 @@ internal Web UI backend); `AMULE_WEB_PASSWORD` logs into the browser Web UI.
 The Compose file requires both rather than using the old `amule` defaults.
 Use single quotes around `.env` values containing literal `$` or `#` characters.
 
-Set `AMULE_DOWNLOADS_PATH=/home/edge33/amule/downloads` and
-`AMULE_TEMP_PATH=/home/edge33/amule/temp` in `.env`, including when updating an
+Set `AMULE_DOWNLOADS_PATH=/home/edge33/downloads/amule/downloads` and
+`AMULE_TEMP_PATH=/home/edge33/downloads/amule/temp` in `.env`, including when updating an
 existing installation. Ensure UID/GID `1000:1000` can write to the local `amule`
 configuration directory and both host data directories.
 If your host user has different IDs, update `PUID`/`PGID` to match `id <username>`.
@@ -42,9 +42,11 @@ For an existing installation:
    migrating from another installation, copy its `.aMule` directory there,
    preserving ownership and permissions.
 3. Move the contents of the old completed-download directory (previously
-   `/home/edge33/downloads/amule`) into `/home/edge33/amule/downloads`.
+   `/home/edge33/downloads/amule`) into `/home/edge33/downloads/amule/downloads`.
+   Move only the existing completed files and folders; exclude the new
+   `downloads` and `temp` directories so they are not moved into themselves.
 4. Move the contents of the configuration directory's `temp` subdirectory into
-   `/home/edge33/amule/temp`, preserving ownership and permissions. Remove the
+   `/home/edge33/downloads/amule/temp`, preserving ownership and permissions. Remove the
    empty old `temp` directory after verifying the move.
 5. Update both path variables in `.env` before starting the container. Verify
    that existing incomplete downloads resume and completed files are visible.
