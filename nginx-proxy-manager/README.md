@@ -9,28 +9,22 @@ From the repository root:
 
 ```sh
 cd nginx-proxy-manager
-cp .env.example .env
-chmod 600 .env
+mkdir -p data letsencrypt
 ```
 
-If `.env` already exists, edit it instead of copying. Set absolute host paths
-for `NPM_DATA_PATH` and `NPM_LETSENCRYPT_PATH`. Create both directories on the
-host before starting; use `sudo` if needed. For the example paths:
+The Compose file mounts `./data` and `./letsencrypt` relative to its own
+directory. No `.env` file is required.
 
-```sh
-sudo mkdir -p /srv/homelab/nginx-proxy-manager/data
-sudo mkdir -p /srv/homelab/nginx-proxy-manager/letsencrypt
-```
+When adopting an existing installation, stop the old container and back up
+both state directories before upgrading. If they live elsewhere, copy their
+contents into `data` and `letsencrypt` beside this Compose file, preserving
+ownership and permissions. Do not run two instances against the same data.
+The database, proxy settings, and certificates must be preserved together;
+empty directories start a fresh installation.
 
-When adopting an existing installation, point the variables to its existing
-`data` and `letsencrypt` directories, including the old directories beside
-the Compose file if used. Stop the old container and back up both directories
-before upgrading. Do not run two instances against the same data. The database,
-proxy settings, and certificates must be preserved together; empty directories
-start a fresh installation.
-
-The real `.env` is ignored by Git. Keep runtime data outside the checkout and
-back it up separately; certificates and application state can contain secrets.
+Both directories are ignored by Git. Back them up separately; certificates
+and application state can contain secrets. Keep using the same deployment
+checkout so changing its location does not start with empty state directories.
 
 ## Start and update
 
