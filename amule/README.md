@@ -11,7 +11,7 @@ From the repository root:
 cd amule
 cp .env.example .env
 chmod 600 .env
-mkdir -p amule
+mkdir -p amule /home/edge33/amule/downloads /home/edge33/amule/temp
 ```
 
 If `.env` already exists, edit it instead of copying. Set two strong passwords:
@@ -20,26 +20,38 @@ internal Web UI backend); `AMULE_WEB_PASSWORD` logs into the browser Web UI.
 The Compose file requires both rather than using the old `amule` defaults.
 Use single quotes around `.env` values containing literal `$` or `#` characters.
 
-Set `AMULE_DOWNLOADS_PATH` to an absolute host directory; the example preserves
-`/home/edge33/downloads/amule`. Create it if necessary. Ensure UID/GID `1000:1000`
-can write to both the local `amule` directory and the downloads directory.
+Set `AMULE_DOWNLOADS_PATH=/home/edge33/amule/downloads` and
+`AMULE_TEMP_PATH=/home/edge33/amule/temp` in `.env`, including when updating an
+existing installation. Ensure UID/GID `1000:1000` can write to the local `amule`
+configuration directory and both host data directories.
 If your host user has different IDs, update `PUID`/`PGID` to match `id <username>`.
 The image may adjust ownership in incoming/temp directories during startup;
 use paths dedicated to this service.
 
 Configuration uses the local bind mount `./amule:/home/amule/.aMule` relative
-to the Compose file, and is ignored by Git along with `.env`. Incomplete files
-remain under `/home/amule/.aMule/temp`; completed files remain in `/downloads`.
-These paths preserve the existing setup. If the two host locations are on
-different filesystems, completing downloads requires copying rather than a rename.
-Back up configuration and incomplete downloads securely.
+to the Compose file, and is ignored by Git along with `.env`. Completed files
+use `/downloads` inside the container; incomplete files use a separate `/temp`
+bind mount, outside the configuration directory. If the two host data locations
+are on different filesystems, completing downloads requires copying rather than
+a rename. Back up configuration and incomplete downloads securely.
 
-For an existing installation, stop the old container, back up configuration,
-and copy its entire `.aMule` directory (including `temp`) into `amule` beside
-this Compose file, preserving ownership and permissions. Keep the existing
-completed-download directory and container paths. Do not run two instances
-against the same data or start with empty configuration. Keep using the same
-checkout so relative mounts continue to find their state.
+For an existing installation:
+
+1. Stop the old container and back up configuration and download data.
+2. Keep the existing configuration in `amule` beside this Compose file. If
+   migrating from another installation, copy its `.aMule` directory there,
+   preserving ownership and permissions.
+3. Move the contents of the old completed-download directory (previously
+   `/home/edge33/downloads/amule`) into `/home/edge33/amule/downloads`.
+4. Move the contents of the configuration directory's `temp` subdirectory into
+   `/home/edge33/amule/temp`, preserving ownership and permissions. Remove the
+   empty old `temp` directory after verifying the move.
+5. Update both path variables in `.env` before starting the container. Verify
+   that existing incomplete downloads resume and completed files are visible.
+
+Do not run two instances against the same data or start with empty configuration.
+Keep using the same checkout so the relative configuration mount continues to
+find its state.
 
 ## Upgrade to 3.1.0
 
