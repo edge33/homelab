@@ -1,0 +1,16 @@
+services:
+  npm:
+    image: jc21/nginx-proxy-manager:2.16.0
+    container_name: nginx-proxy-manager
+    restart: unless-stopped
+
+    environment:
+      TZ: Europe/Rome
+
+    ports:
+      - "80:80"
+      - "81:81"
+      - "443:443"
+    volumes:
+      - "${NPM_DATA_PATH:?Set NPM_DATA_PATH in .env}:/data"
+      - "${NPM_LETSENCRYPT_PATH:?Set NPM_LETSENCRYPT_PATH in .env}:/etc/letsencrypt"
