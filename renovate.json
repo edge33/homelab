@@ -2,5 +2,11 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended", "docker:pinDigests"],
   "enabledManagers": ["docker-compose"],
-  "automerge": false
+  "automerge": false,
+  "packageRules": [
+    {
+      "matchPackageNames": ["lscr.io/linuxserver/qbittorrent"],
+      "allowedVersions": "!/^20\\.04\\.1$/"
+    }
+  ]
 }
