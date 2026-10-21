@@ -1,0 +1,25 @@
+services:
+  amule:
+    image: ngosang/amule:3.1.0-1
+    container_name: amule
+    restart: unless-stopped
+
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Rome
+      GUI_PWD: ${AMULE_GUI_PASSWORD:?Set AMULE_GUI_PASSWORD in .env}
+      WEBUI_PWD: ${AMULE_WEB_PASSWORD:?Set AMULE_WEB_PASSWORD in .env}
+      INCOMING_DIR: /downloads
+      TEMP_DIR: /home/amule/.aMule/temp
+
+    ports:
+      - "4711:4711/tcp" # Web UI and REST API
+      - "4712:4712/tcp" # External connections
+      - "4662:4662/tcp" # ED2K client TCP
+      - "4665:4665/udp" # ED2K server UDP
+      - "4672:4672/udp" # Kademlia UDP
+
+    volumes:
+      - "./amule:/home/amule/.aMule"
+      - "${AMULE_DOWNLOADS_PATH:?Set AMULE_DOWNLOADS_PATH in .env}:/downloads"
