@@ -1,0 +1,19 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:12.2
+    container_name: jellyfin
+    restart: unless-stopped
+    network_mode: host
+
+    environment:
+      TZ: Europe/Rome
+      # Preserve the existing host's legacy Intel VA-API driver selection.
+      LIBVA_DRIVER_NAME: i965
+
+    volumes:
+      - "./config:/config"
+      - "./cache:/cache"
+      - "${JELLYFIN_MEDIA_PATH:?Set JELLYFIN_MEDIA_PATH in .env}:/media"
+
+    devices:
+      - /dev/dri:/dev/dri
