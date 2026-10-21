@@ -7,6 +7,7 @@ Docker Compose stacks for:
 - [qBittorrent](qbittorrent/README.md)
 - [Nginx Proxy Manager](nginx-proxy-manager/README.md)
 - [Tailscale](tailscale/README.md)
+- [Home Assistant](homeassistant/README.md)
 - [Jellyfin](jellyfin/README.md)
 
 ## Automated image updates
