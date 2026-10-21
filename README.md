@@ -1,9 +1,13 @@
 # Homelab
 
-Docker Compose stacks for [Pi-hole](pi-hole/README.md),
-[Samba](samba/README.md), [qBittorrent](qbittorrent/README.md),
-[Nginx Proxy Manager](nginx-proxy-manager/README.md),
-[Tailscale](tailscale/README.md), and [aMule](amule/README.md).
+Docker Compose stacks for:
+
+- [Pi-hole](pi-hole/README.md)
+- [Samba](samba/README.md)
+- [qBittorrent](qbittorrent/README.md)
+- [Nginx Proxy Manager](nginx-proxy-manager/README.md)
+- [Tailscale](tailscale/README.md)
+- [aMule](amule/README.md)
 
 ## Automated image updates
 
