@@ -1,7 +1,7 @@
 # Homelab
 
-Docker Compose stacks for [Pi-hole](pi-hole/README.md) and
-[Samba](samba/README.md).
+Docker Compose stacks for [Pi-hole](pi-hole/README.md),
+[Samba](samba/README.md), and [qBittorrent](qbittorrent/README.md).
 
 ## Automated image updates
 
