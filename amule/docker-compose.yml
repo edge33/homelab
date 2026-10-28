@@ -1,6 +1,6 @@
 services:
   amule:
-    image: ngosang/amule:3.1.0-1@sha256:3f57ba34afa28f6c4bfc8871fcb70ece57771738e69bcc3a30a9a82ce8716a1d
+    image: ngosang/amule:3.2.0-1@sha256:4b1a4246d57e7994b31c723b8c55474654e328c1b8eb0f9deb7f1843673bd515
     container_name: amule
     restart: unless-stopped
 
