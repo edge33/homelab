@@ -10,6 +10,7 @@ Docker Compose stacks for:
 - [Home Assistant](homeassistant/README.md)
 - [Jellyfin](jellyfin/README.md)
 - [aMule](amule/README.md)
+- [Hermes Agent](hermes/README.md)
 
 ## Automated image updates
 

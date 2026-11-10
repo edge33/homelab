@@ -10,6 +10,7 @@
 # Service state can contain credentials, tokens, and private keys.
 /amule/amule/
 /homeassistant/config/
+/hermes/data/
 /jellyfin/config/
 /jellyfin/cache/
 /nginx-proxy-manager/data/
