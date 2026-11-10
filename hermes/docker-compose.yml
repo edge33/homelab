@@ -21,6 +21,7 @@ services:
 
     ports:
       - "${HERMES_BIND_IP:-0.0.0.0}:9119:9119"
+      - "${HERMES_BIND_IP:-0.0.0.0}:9120:9120"
 
     volumes:
       - "./data:/opt/data"

@@ -1,7 +1,8 @@
 # Hermes Agent
 
-Runs the official stable image with a password-protected dashboard and persistent
-state in `./data`, following the [upstream Docker guidance](https://hermes-agent.nousresearch.com/docs/user-guide/docker).
+Runs the official stable image with a password-protected dashboard, optional
+browser chat (Webapp), and persistent state in `./data`, following the
+[upstream Docker guidance](https://hermes-agent.nousresearch.com/docs/user-guide/docker).
 Telegram uses outbound long polling. No public hostname, inbound Telegram port,
 OpenAI API key, Docker socket, or host networking is required for this setup.
 
@@ -28,7 +29,8 @@ Keep these values private. `.env` and the entire data directory are ignored by G
 clients to use `http://<homelab-lan-ip>:9119` without embedding a machine-specific
 address in the configuration. Restrict port 9119 to trusted LAN clients using
 host/network firewall rules; this bind address itself does not enforce LAN-only
-access. Do not forward this port from the router. Sign in with the dashboard
+access. The same restrictions apply to Webapp port 9120. Do not forward either
+port from the router. Sign in with the dashboard
 credentials from `.env`. Use `127.0.0.1` instead for local-only testing, or a
 specific host LAN address to bind only that interface.
 
@@ -71,6 +73,38 @@ If the gateway was started before provider setup, configure its model with
 limits usage to 4 GB RAM and two CPUs, including 1 GB shared memory for browser
 tools. The image manages its own supervisor; keep its entrypoint unchanged.
 
+## Enable browser chat (Webapp)
+
+The Webapp is served by the same gateway on port 9120 and shares the dashboard's
+username/password authentication. Compose publishes the port, but Hermes must
+also enable the listener in its persistent configuration. On the deployment
+host, from `hermes`, run each command only if the previous succeeds:
+
+```sh
+docker compose up -d
+docker compose exec hermes hermes config set webapp.enabled true
+docker compose exec hermes hermes config set webapp.host 0.0.0.0
+docker compose exec hermes hermes config set webapp.port 9120
+docker compose restart hermes
+```
+
+Open `http://<homelab-lan-ip>:9120` and sign in with the same credentials used at
+port 9119. Keep the container listener bound to `0.0.0.0`; a container-loopback
+listener cannot be reached through the published port. Check listener status
+with `docker compose exec hermes hermes webapp --status` and confirm that unsigned
+visitors must log in before accessing chat.
+
+Optionally set the URL used in generated links (replace the address first):
+
+```sh
+docker compose exec hermes hermes config set webapp.public_url "http://<homelab-lan-ip>:9120"
+docker compose restart hermes
+```
+
+The example address is a placeholder, not a command to paste unchanged. If you
+set a public URL, update it when moving to a different host address. See the
+[upstream Webapp guidance](https://hermes-agent.nousresearch.com/docs/user-guide/docker#running-the-webapp).
+
 ## Move to the homelab
 
 All application state, including subscription login, Telegram credentials,
@@ -104,6 +138,8 @@ Back up `data` and `.env` together while the stack is stopped, using a protected
 destination. Keep `data` on native local disk because its SQLite database uses
 WAL; do not place it on Samba/NFS storage. Never run two gateways against the same
 data directory. Keep using the same deployment checkout to retain relative mounts.
+The migration archive `data.zip` is also ignored by Git because it can contain
+the same credentials and private state.
 
 For updates, back up first, run `git pull --ff-only` on the deployment branch
 (`main` normally), then `docker compose pull` and `docker compose up -d`.
