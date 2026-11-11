@@ -15,7 +15,8 @@ Ensure UID/GID `1000:1000` can access the share; adjust `USERID`/`GROUPID` in
 Compose if needed.
 
 [Start the stack](../README.md). Connect to `smb://<homelab-ip>/drive-name`
-using the credentials from `.env`. Keep ports `139`/`445` restricted to trusted
-networks. Preserve the `samba_*` named volumes across updates.
+using the credentials from `.env`. State uses the `samba_*` named volumes.
 
+For application configuration, see the
+[upstream container documentation](https://github.com/dperson/samba).
 See [shared update instructions](../README.md#updates).

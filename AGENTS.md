@@ -6,8 +6,11 @@
   access, and update the service. Put shared instructions in the root README.
 - Omit change history, implementation rationale, and explanations of why changes
   were made unless the behavior is counterintuitive and affects operation.
-- Keep required prerequisites, credentials, persistent paths, and essential
-  service-specific steps. Link upstream documentation for optional setup.
+- Document only what is needed to run the Compose stack: host prerequisites,
+  required environment values, mounts, startup, and access URLs.
+- Link to original upstream documentation for application configuration and
+  behavior, including onboarding, providers, integrations, and client settings;
+  do not duplicate those instructions in service READMEs.
 - Keep image tags and digests pinned; avoid duplicating versions in READMEs.
 - Never commit or expose real `.env` files, credentials, runtime state, or
   migration archives.

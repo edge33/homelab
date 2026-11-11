@@ -8,17 +8,14 @@ mkdir -p config cache
 ```
 
 If `.env` exists, edit it instead of copying. Set `JELLYFIN_MEDIA_PATH` to an
-existing absolute media directory. Reuse existing state in `./config` and
-`./cache` with permissions preserved while the old server is stopped.
+existing absolute media directory. State mounts use `./config` and `./cache`.
 
-The host needs port `8096` available and `/dev/dri`. The configured `i965` driver
-is for legacy Intel GPUs; adjust it for your hardware, or remove both the driver
-override and device mapping for software-only playback.
+The host needs port `8096` available and `/dev/dri`. Check the configured `i965`
+driver against the [upstream Intel GPU guide](https://jellyfin.org/docs/general/post-install/transcoding/hardware-acceleration/intel/).
+For software-only operation, remove the driver override and device mapping.
 
-[Start the stack](../README.md). Open `http://<homelab-ip>:8096`, create an
-administrator, and add libraries under `/media`. For hardware transcoding,
-configure VA-API and the render device under Dashboard → Playback → Transcoding.
+[Start the stack](../README.md). Web UI: `http://<homelab-ip>:8096`.
 
-Before upgrading existing data, check the
-[upstream migration requirements](https://jellyfin.org/docs/general/installation/container/).
+For application setup, see the
+[upstream container guide](https://jellyfin.org/docs/general/installation/container/).
 See [shared update instructions](../README.md#updates).

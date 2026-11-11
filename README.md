@@ -13,7 +13,8 @@ Docker Compose stacks for:
 - [Hermes Agent](hermes/README.md)
 
 Use a Linux host with Docker Engine and the Compose plugin. Follow the service
-README for setup, then run from that service's directory:
+README for Compose setup and upstream links for application configuration.
+Run from the service's directory:
 
 ```sh
 docker compose up -d
