@@ -12,23 +12,32 @@ Docker Compose stacks for:
 - [aMule](amule/README.md)
 - [Hermes Agent](hermes/README.md)
 
-## Automated image updates
+Use a Linux host with Docker Engine and the Compose plugin. Follow the service
+README for setup, then run from that service's directory:
 
-Renovate is configured in `renovate.json` to open pull requests for Docker
-Compose image updates throughout this repository. It tracks version tags and
-pins images to digests, allowing changes to mutable tags such as Samba's
-`latest` to be reviewed in Git. Automerge is disabled.
+```sh
+docker compose config --quiet &&
+docker compose pull &&
+docker compose up -d &&
+docker compose ps
+```
 
-The legacy qBittorrent tag `20.04.1` is excluded because it refers to an old
-Ubuntu-based image containing qBittorrent 4.3.9, rather than a newer app release.
+Keep existing `.env` files and state when reusing an installation. Back them up
+before upgrades; do not commit credentials or runtime data. Keep management
+interfaces restricted to trusted networks.
 
-To activate updates, install the [Renovate GitHub App](https://github.com/apps/renovate)
-and grant it access to `edge33/homelab`, then merge this configuration into
-`main`. If the app is already installed, ensure this repository is selected.
-Renovate will propose the initial digest pins and subsequent image updates.
-See the [Renovate Docker documentation](https://docs.renovatebot.com/docker/)
-for details.
+## Updates
 
-Review and merge update pull requests, then follow each stack's manual update
-instructions on the homelab host. Merging a pull request does not deploy the
-containers.
+Back up service state, review upstream upgrade requirements, then run from the
+service directory on the deployment branch (`main` normally):
+
+```sh
+git pull --ff-only &&
+docker compose config --quiet &&
+docker compose pull &&
+docker compose up -d
+```
+
+Renovate opens image update PRs; deployment is manual. Rollbacks may require
+restoring the matching state backup. Do not use `docker compose down -v` unless
+you intend to delete named-volume state.
