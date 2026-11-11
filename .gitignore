@@ -18,4 +18,5 @@
 /pi-hole/etc-pihole/
 /pi-hole/etc-dnsmasq.d/
 /qbittorrent/config/
+/radarr/config/
 /tailscale/tailscale-state/

@@ -9,6 +9,7 @@ Docker Compose stacks for:
 - [Tailscale](tailscale/README.md)
 - [Home Assistant](homeassistant/README.md)
 - [Jellyfin](jellyfin/README.md)
+- [Radarr](radarr/README.md)
 - [aMule](amule/README.md)
 - [Hermes Agent](hermes/README.md)
 
