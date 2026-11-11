@@ -10,7 +10,7 @@
   service-specific steps. Link upstream documentation for optional setup.
 - Keep image tags and digests pinned; avoid duplicating versions in READMEs.
 - Never commit or expose real `.env` files, credentials, runtime state, or
-  migration archives, including `hermes/data.zip`.
+  migration archives.
 - Do not start, stop, or migrate live services unless the user requests it.
 - Validate affected stacks with `docker compose config --quiet` using dummy
   environment values; do not print resolved credentials. Run `git diff --check`
