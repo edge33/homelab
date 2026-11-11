@@ -16,10 +16,7 @@ Use a Linux host with Docker Engine and the Compose plugin. Follow the service
 README for setup, then run from that service's directory:
 
 ```sh
-docker compose config --quiet &&
-docker compose pull &&
-docker compose up -d &&
-docker compose ps
+docker compose up -d
 ```
 
 Keep existing `.env` files and state when reusing an installation. Back them up
@@ -33,7 +30,6 @@ service directory on the deployment branch (`main` normally):
 
 ```sh
 git pull --ff-only &&
-docker compose config --quiet &&
 docker compose pull &&
 docker compose up -d
 ```

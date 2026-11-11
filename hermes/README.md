@@ -17,8 +17,6 @@ session-secret values with `openssl rand -hex 32`.
 For a fresh installation:
 
 ```sh
-docker compose config --quiet &&
-docker compose pull &&
 docker compose run --rm -e HERMES_DASHBOARD=0 hermes setup
 ```
 

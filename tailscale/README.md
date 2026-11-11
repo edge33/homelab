@@ -24,12 +24,7 @@ non-ephemeral, single-use key from the
 [admin console](https://login.tailscale.com/admin/settings/keys).
 Reuse existing node state in `./tailscale-state` while the old instance is stopped.
 
-[Start the stack](../README.md), then verify:
-
-```sh
-docker compose exec tailscale tailscale status
-docker compose exec tailscale tailscale ip -4
-```
+[Start the stack](../README.md).
 
 After enrollment, clear `TS_AUTHKEY` and run `docker compose up -d` again.
 Approve the device, subnet routes, and exit-node use in the admin console;
