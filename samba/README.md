@@ -1,76 +1,22 @@
 # Samba
 
-## Local configuration
-
-For initial setup, copy the tracked example to a local environment file. If
-`.env` already exists, edit it instead of copying. From the repository root:
-
 ```sh
 cd samba
 cp .env.example .env
 chmod 600 .env
 ```
 
-Edit `.env` with your host share path and credentials:
+If `.env` exists, edit it instead of copying. Set `SAMBA_SHARE_PATH` to an
+absolute host directory and create it. Set `SAMBA_USER` and `SAMBA_PASSWORD`;
+avoid semicolons and double quotes in credentials. Use single quotes around
+`.env` values containing literal `$` or `#`.
 
-```dotenv
-SAMBA_SHARE_PATH=/srv/shares/downloads
-SAMBA_USER=your-username
-SAMBA_PASSWORD='replace-with-a-new-strong-password'
-```
+Ensure UID/GID `1000:1000` can access the share; adjust `USERID`/`GROUPID` in
+Compose if needed.
 
-Create the host share directory before starting Samba. Use an absolute path
-outside the Git checkout. File ownership uses user/group ID `1000`, configured
-in `docker-compose.yml`. The SMB share is named `drive-name`. Images, ports,
-and other service settings are defined directly in the Compose file.
+[Start the stack](../README.md). Connect to `smb://<homelab-ip>/drive-name`
+using the credentials from `.env`. State uses the `samba_*` named volumes.
 
-The real `.env` is ignored by Git. The tracked `.env.example` contains only
-placeholder values and serves as the configuration reference for fresh clones.
-Single quotes preserve literal `$` and `#` characters in `.env`. Avoid semicolons
-and double quotes in Samba credentials because they act as command delimiters.
-Never use the placeholder password as a real password or share the output of
-`docker compose config`, which contains resolved credentials.
-
-## Start and update manually
-
-From the `samba` directory, validate the configuration and start the service:
-
-```sh
-docker compose config --quiet
-docker compose pull
-docker compose up -d
-docker compose ps
-```
-
-After pushing repository changes, run the following on the homelab from the
-`samba` directory. Run each command only if the preceding command succeeds:
-
-```sh
-git pull --ff-only
-docker compose config --quiet
-docker compose pull
-docker compose up -d
-docker compose ps
-```
-
-Keep the checkout on `main` for normal deployments. To test a PR, check out its
-branch and configure its upstream first. Pulls follow the current branch's
-upstream. Renovate proposes digest pins and updates for the `latest` image tag
-through pull requests; see the
-[repository update instructions](../README.md#automated-image-updates).
-Until a digest pin is merged, `latest` can change independently of Git.
-
-Samba's internal configuration and state live in Docker named volumes. Keep
-their names unchanged across updates, and do not use `docker compose down -v`
-unless you intend to delete that state. Ordinary updates use `up -d` without
-stopping the stack first.
-
-With the share outside the checkout and internal state in named volumes,
-runtime data stays separate from Git. Ignored files do not normally interfere
-with pulls, but future commits must not track their paths. `.gitignore` does
-not protect files already tracked by Git. Back up the share, named volumes,
-and local credentials separately; reverting Git does not restore data.
-
-The repository history was replaced to remove an old sample credential. Use a
-fresh clone if your existing clone has the old history, and replace any password
-reused from that history.
+For application configuration, see the
+[upstream container documentation](https://github.com/dperson/samba).
+See [shared update instructions](../README.md#updates).
