@@ -14,17 +14,15 @@ If `.env` exists, edit it instead of copying. Set `HERMES_UID`/`HERMES_GID` to
 your host IDs. Set the dashboard username and generate separate password and
 session-secret values with `openssl rand -hex 32`.
 
-For a fresh installation:
-
 ```sh
-docker compose run --rm -e HERMES_DASHBOARD=0 hermes setup
+docker compose up -d
 ```
 
-Choose the model provider and complete sign-in. For Telegram, supply a bot token
-and restrict allowed users to your own numeric ID in the setup wizard.
-
-[Start the stack](../README.md). Open `http://<homelab-ip>:9119` and sign in with
-the dashboard credentials from `.env`.
+Open `http://<homelab-ip>:9119` and sign in with the dashboard credentials from
+`.env`. Configure your provider credentials and model in the dashboard. For
+Telegram, configure the bot token and restrict allowed users to your own numeric
+ID under **Channels**. Start or restart the gateway from the dashboard after
+saving the configuration.
 
 Browser chat uses `http://<homelab-ip>:9120` and the same credentials. Enable it
 in persistent Hermes configuration using the
