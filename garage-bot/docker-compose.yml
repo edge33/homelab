@@ -1,6 +1,7 @@
 services:
   garage-bot:
     image: garage-bot:1.0.0
+    container_name: garage-bot
     env_file: .env
     init: true
     restart: unless-stopped
