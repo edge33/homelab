@@ -13,6 +13,7 @@ Docker Compose stacks for:
 - [aMule](amule/README.md)
 - [Hermes Agent](hermes/README.md)
 - [Garage Bot](garage-bot/README.md)
+- [AI Run Coach](ai-run-coach/README.md)
 
 Use a Linux host with Docker Engine and the Compose plugin. Follow the service
 README for Compose setup and upstream links for application configuration.
