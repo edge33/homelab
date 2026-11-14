@@ -9,7 +9,7 @@ services:
       LOG_LEVEL: ${LOG_LEVEL:-info}
       GARMIN_REQUEST_INTERVAL_MS: ${GARMIN_REQUEST_INTERVAL_MS:-1000}
     ports:
-      - "${BIND_IP:-127.0.0.1}:8080:8080"
+      - "${BIND_IP:-127.0.0.1}:8082:8080"
     volumes:
       - ./data:/app/data
     stop_grace_period: 30s
