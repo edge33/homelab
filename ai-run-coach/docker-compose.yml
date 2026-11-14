@@ -1,6 +1,6 @@
 services:
   hub:
-    image: ghcr.io/edge33/ai-run-coach:v0.1.1@sha256:1f1cfb264c2f0e109db4d022de483e43368770255c6cdbd6380c1ccfa2079e7a
+    image: ghcr.io/edge33/ai-run-coach:v0.1.2@sha256:22a398f7d1158594efd42e9b67c3259547ff16930513420643d115d50e777a8e
     restart: unless-stopped
     environment:
       APP_ORIGINS: ${APP_ORIGINS:?Set APP_ORIGINS in .env}
