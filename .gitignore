@@ -8,6 +8,7 @@
 .ssh/
 
 # Service state can contain credentials, tokens, and private keys.
+/ai-run-coach/data/
 /amule/amule/
 /homeassistant/config/
 /hermes/data/

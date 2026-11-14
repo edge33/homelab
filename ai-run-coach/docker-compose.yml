@@ -1,0 +1,15 @@
+services:
+  hub:
+    image: ghcr.io/edge33/ai-run-coach:v0.1.1@sha256:1f1cfb264c2f0e109db4d022de483e43368770255c6cdbd6380c1ccfa2079e7a
+    restart: unless-stopped
+    environment:
+      APP_ORIGINS: ${APP_ORIGINS:?Set APP_ORIGINS in .env}
+      GARMIN_API_KEY: ${GARMIN_API_KEY:-}
+      ATHLETE_TIMEZONE: ${ATHLETE_TIMEZONE:-Europe/Rome}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      GARMIN_REQUEST_INTERVAL_MS: ${GARMIN_REQUEST_INTERVAL_MS:-1000}
+    ports:
+      - "${BIND_IP:-127.0.0.1}:8080:8080"
+    volumes:
+      - ./data:/app/data
+    stop_grace_period: 30s
