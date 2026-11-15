@@ -1,6 +1,6 @@
 services:
   hub:
-    image: ghcr.io/edge33/ai-run-coach:v0.1.3@sha256:9f14bcb29fe6f1f48e69dca514ce4aa17c163ce31b507b0f16eac27b82ecb506
+    image: ghcr.io/edge33/ai-run-coach:v0.2.0@sha256:837f1821dd2a1e45ade3e03afca6f60b2d268a84b9640a2dd49bb8f6b83a5161
     restart: unless-stopped
     container_name: ai-run-coach
     environment:
