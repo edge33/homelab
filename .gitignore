@@ -21,3 +21,5 @@
 /qbittorrent/config/
 /radarr/config/
 /tailscale/tailscale-state/
+/videodl-bot/downloads/
+/videodl-bot/state/

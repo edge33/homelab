@@ -1,0 +1,21 @@
+services:
+  videodl-bot:
+    image: ghcr.io/edge33/videodl-bot:0.1.1@sha256:12163e8850d3aa4d56c44a26ebd7efa5338b6893f49b489970fa92a67caa24bf
+    container_name: videodl-bot
+    user: "${PUID:-1000}:${PGID:-1000}"
+    init: true
+    restart: unless-stopped
+    stop_grace_period: 60s
+    environment:
+      TELEGRAM_BOT_API_KEY: ${TELEGRAM_BOT_API_KEY:?Set TELEGRAM_BOT_API_KEY in .env}
+      TELEGRAM_ALLOWED_USER_ID: ${TELEGRAM_ALLOWED_USER_ID:?Set TELEGRAM_ALLOWED_USER_ID in .env}
+      DOWNLOAD_DIR: /downloads
+      STATE_DIR: /state
+      QUEUE_MAX_PENDING: ${QUEUE_MAX_PENDING:-20}
+      MAX_DURATION_SECONDS: ${MAX_DURATION_SECONDS:-7200}
+      MAX_FILE_BYTES: ${MAX_FILE_BYTES:-4294967296}
+      FREE_SPACE_RESERVE_BYTES: ${FREE_SPACE_RESERVE_BYTES:-2147483648}
+      JOB_DEADLINE_MS: ${JOB_DEADLINE_MS:-3600000}
+    volumes:
+      - "${VIDEODL_DOWNLOADS_PATH:?Set VIDEODL_DOWNLOADS_PATH in .env}:/downloads"
+      - "${VIDEODL_STATE_PATH:?Set VIDEODL_STATE_PATH in .env}:/state"
