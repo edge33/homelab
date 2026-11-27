@@ -1,6 +1,6 @@
 services:
   videodl-bot:
-    image: ghcr.io/edge33/videodl-bot:0.1.1@sha256:12163e8850d3aa4d56c44a26ebd7efa5338b6893f49b489970fa92a67caa24bf
+    image: ghcr.io/edge33/videodl-bot:0.2.0@sha256:d5823058ad2445470b566335dfd6902e1870fc648152b5d2c9a3a7f7fee22d92
     container_name: videodl-bot
     user: "${PUID:-1000}:${PGID:-1000}"
     init: true
