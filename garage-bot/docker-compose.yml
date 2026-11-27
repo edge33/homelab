@@ -1,6 +1,6 @@
 services:
   garage-bot:
-    image: ghcr.io/edge33/garage-bot:v1.1.1@sha256:35556fe842131a67fb62cab3f6f1dcda09656f1d93acae4034733a36316ed836
+    image: ghcr.io/edge33/garage-bot:v1.1.2@sha256:5eda832fdca409c351441ca54494fe4b0859e65d979a4228c6f6ae889843aa0e
     container_name: garage-bot
     env_file: .env
     init: true
